@@ -1,5 +1,5 @@
 import {BaseEntity,Column,Entity,Index,JoinColumn,JoinTable,ManyToMany,ManyToOne,OneToMany,OneToOne,PrimaryColumn,PrimaryGeneratedColumn,RelationId} from "typeorm";
-
+import * as crypto from 'crypto'
 
 @Entity("user",{schema:"mynest"})
 export class user {
@@ -73,5 +73,17 @@ export class user {
         name:"updateAt"
         })
     updateAt:Date;
+
+    verifyPassword(pass: string) {
+        let h = crypto.createHmac('sha256', pass).digest('hex')
+        return this.password === h
+    }
         
+    static setPassword(password: string) {
+        if (password) {
+            return crypto.createHmac('sha256', password).digest('hex')
+        } else {
+            return undefined
+        }
+    }
 }

@@ -10,4 +10,9 @@ export class AppController {
   getHello(@Body() data) {
     return this.appService.getHello(data);
   }
+
+  @Post('login')
+  login (@Body() data) {
+    return this.appService.login(data)
+  }
 }
